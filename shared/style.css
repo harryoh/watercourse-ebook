@@ -1,0 +1,29 @@
+@charset "utf-8";
+body{font-family:"Noto Serif CJK KR","Noto Serif KR",serif;line-height:1.85;color:#1a1a1a;
+  word-break:keep-all;-webkit-hyphens:none;hyphens:none;margin:0;padding:0;}
+h1{font-size:1.6em;line-height:1.4;font-weight:700;margin:1.2em 0 .6em;
+  page-break-before:always;break-before:page;}
+p{margin:0 0 .95em;text-align:justify;text-indent:1em;}
+blockquote{margin:.3em 0 1.2em;padding:.7em 1em;background:#f4f1e7;
+  border-left:3px solid #c9a25a;border-radius:2px;}
+blockquote p{text-indent:0;margin:0;font-size:.95em;color:#2b2b2b;line-height:1.7;}
+p.passage{text-indent:0;color:#33506b;font-size:.95em;margin:.2em 0 1.4em;
+  padding-bottom:.9em;border-bottom:1px solid #d8cfa9;}
+p.ref{text-indent:0;text-align:center;color:#33506b;font-weight:700;font-size:.92em;margin:1.4em 0 .5em;}
+/* 표제지 */
+.title-page{text-align:center;page-break-after:always;}
+.title-page .logo img{width:55%;max-width:360px;margin:1.4em auto .8em;}
+.title-page .bk{font-size:3em;font-weight:700;letter-spacing:.08em;text-indent:0;margin:.6em 0 0;}
+.title-page .sub{font-size:1.3em;color:#9a7b34;text-indent:0;margin:.4em 0;}
+.title-page .au{margin-top:2.4em;font-size:1.15em;text-indent:0;}
+.title-page .pub{color:#555;text-indent:0;margin:.3em 0;}
+.title-page .vid{margin-top:2.4em;font-size:.8em;color:#777;text-indent:0;line-height:1.6;}
+.sign{text-align:right;text-indent:0;margin-top:1.8em;color:#333;line-height:1.7;}
+/* 판권 */
+.colophon{margin-top:18%;padding:1.4em;border:1px solid #d8cfa9;}
+.colophon .bk{font-size:1.5em;font-weight:700;text-align:center;text-indent:0;margin:0;}
+.colophon .subk{text-align:center;color:#9a7b34;text-indent:0;margin:.3em 0 1.4em;}
+.colophon p{text-indent:0;margin:.35em 0;font-size:.92em;color:#333;}
+.church-info img{max-width:100%;height:auto;}
+.colophon p.pubinfo{text-indent:0;text-align:center;font-weight:700;margin:.2em 0 1.2em;color:#33506b;}
+.colophon p.ver{text-indent:0;text-align:center;color:#888;font-size:.82em;margin-top:1.2em;}
