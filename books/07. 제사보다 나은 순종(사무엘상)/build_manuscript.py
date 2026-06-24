@@ -24,6 +24,7 @@ def blockify(body,title):
         if re.fullmatch(r'\d{1,3}',t): continue
         if re.match(r'^\d{1,2}_',t): continue        # 러닝 헤더/꼬리말 장머리
         if t in NOISE or t==title: continue
+        if re.sub(r'\s','',t) in ALL_TITLES: continue   # 다른 장 제목 러닝헤더 제거
         if E.REF_RE.match(t): out.append(('ref',t)); expect=True; continue
         if expect: out.append(('quote',t)); expect=False; continue
         out.append(('p',t))
@@ -38,6 +39,10 @@ def starts_in(P,lo,hi):
             if lo<=k<=hi and k not in s: s[k]=i
     return s
 
+ALL_TITLES=set()
+for _sub in ("사무엘상1_합본.hwp","사무엘상2_합본.hwp"):
+    for _v in E._parse_toc(hwp5.extract_paragraphs(find(_sub))).values():
+        if _v: ALL_TITLES.add(re.sub(r'\s','',_v))
 chapters=[]; preface=[]
 for tag,sub,lo,hi in [("part1","사무엘상1_합본.hwp",1,16),("part2","사무엘상2_합본.hwp",17,33)]:
     src=find(sub); shutil.copyfile(src, os.path.join(bdir,'original',os.path.basename(src)))

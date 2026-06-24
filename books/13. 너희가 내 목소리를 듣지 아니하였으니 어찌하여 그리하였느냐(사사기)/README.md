@@ -17,9 +17,18 @@
 ## 재생성 / 빌드
 ```bash
 python3 shared/lib/extract_hwp.py "books/13. 너희가 내 목소리를 듣지 아니하였으니 어찌하여 그리하였느냐(사사기)"   # 기존 manuscript.md 보존(--force로 덮어쓰기)
-python3 shared/lib/make_cover.py "books/13. 너희가 내 목소리를 듣지 아니하였으니 어찌하여 그리하였느냐(사사기)"
 python3 shared/lib/review.py "books/13. 너희가 내 목소리를 듣지 아니하였으니 어찌하여 그리하였느냐(사사기)"
 ./build.sh "books/13. 너희가 내 목소리를 듣지 아니하였으니 어찌하여 그리하였느냐(사사기)"
+```
+
+## 표지(앞표지)
+
+- **원본 표지**: `출판/images/front.jpg` — 앞표지만 있는 **단독 이미지**(펼침/책등/날개 없음).
+- **추출**: 잘라내기 불필요. 그대로(필요 시 폭 1400px 축소) cover.jpg로 사용.
+- **book.env**: `COVER_SRC="출판/images/front.jpg"`  (COVER_CROP 없음)
+- **재현**(book.env의 COVER_SRC/COVER_CROP 사용):
+```bash
+python3 shared/lib/extract_cover.py "books/13. 너희가 내 목소리를 듣지 아니하였으니 어찌하여 그리하였느냐(사사기)" --src-root "<원본 표지가 있는 폴더>"
 ```
 
 ## 주의

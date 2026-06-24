@@ -1,0 +1,467 @@
+{
+  "generated": "2026-06-24",
+  "style_css": {
+    "sha256": "64d8d4ebad160ad52c84ccbe91010d2bb9948e22cbc20ae29a934f0bd4acb113",
+    "bytes": 2561
+  },
+  "books": [
+    {
+      "folder": "(소)생명을 살리는 방주",
+      "title": "생명을 살리는 방주",
+      "edition": "제1판",
+      "version": "1.0.0",
+      "release_date": "2017-11",
+      "reviewed": "no",
+      "sources": [
+        {
+          "path": "original/생명을 살리는 방주2(합침).hwp",
+          "sha256": "182dc63890090c6ef818e8c606d111f9748252f227aa959674d55fd82a1083d8",
+          "bytes": 2486784
+        }
+      ],
+      "manuscript": {
+        "sha256": "61deef17c543eddf54f753b08cca286d7d7c76c0e1c4d8ed481904be91531b47",
+        "bytes": 45644
+      },
+      "cover": {
+        "sha256": "081efcd8b80a5d2fe3fa5a833dcb160182b8ea9b2c880011be7004e5d5c1682a",
+        "bytes": 702895
+      },
+      "book_env": {
+        "sha256": "ad8231fb7ff046c02dfdaf2d4c0b8ae14c3550e54e4caa70bea83e4d20c35da9",
+        "bytes": 1130
+      }
+    },
+    {
+      "folder": "01. 죽어야만 사는 나라",
+      "title": "죽어야만 사는 나라",
+      "edition": "제1판",
+      "version": "1.0.0",
+      "release_date": "2008-04",
+      "reviewed": "no",
+      "sources": [
+        {
+          "path": "original/01 죽어야만 사는나라.hwp",
+          "sha256": "8bf8c94fd72794ffda20e3ea7de2c605414bcd00fb21d407d8f293d425b3cff1",
+          "bytes": 741376
+        }
+      ],
+      "manuscript": {
+        "sha256": "e6bd87b3ad1321038360510310fc9826bb0a7d993da0d2efb7c01fcbfeaad2a0",
+        "bytes": 312442
+      },
+      "cover": {
+        "sha256": "205a043a7f9837df7b91ecba8d653dbaebde318450d88205801792531d133d7c",
+        "bytes": 129737
+      },
+      "book_env": {
+        "sha256": "645936c6721f8678589d9983aaf57342234602458f5b7ada8047e82a9a22d7ee",
+        "bytes": 1206
+      }
+    },
+    {
+      "folder": "02. 믿음의 계단",
+      "title": "믿음의 계단",
+      "edition": "제1판",
+      "version": "1.0.0",
+      "release_date": "2020-10",
+      "reviewed": "no",
+      "sources": [],
+      "manuscript": {
+        "sha256": "258165d61a2bf8b3ce519f879de4f6b16d2cc2f668c6f149bb30737343ea43ff",
+        "bytes": 192708
+      },
+      "cover": {
+        "sha256": "617a1123e074f501ea84129be002b14204c27a2749a2255185de6cb47a4130e9",
+        "bytes": 50546
+      },
+      "book_env": {
+        "sha256": "66dad2a0890b223ff25a4eea6fa5ff5097281a0eea0395f31ea5ed3bbcab6aa4",
+        "bytes": 720
+      }
+    },
+    {
+      "folder": "03. 아름다운 노래(아가)",
+      "title": "아가 강해",
+      "edition": "제1판",
+      "version": "1.0.0",
+      "release_date": "2017-02",
+      "reviewed": "no",
+      "sources": [
+        {
+          "path": "original/아가서본문.hwp",
+          "sha256": "a7dba26dc7c07de347be732cf8e8bf249213f2b7ffaf25e732220590f9f1edc9",
+          "bytes": 8338944
+        }
+      ],
+      "manuscript": {
+        "sha256": "b8e48a10e7401fc3bf19a7118d9f9d6508a5bf6606c901e577bff2f920a8a172",
+        "bytes": 295052
+      },
+      "cover": {
+        "sha256": "9bab7e20034cfb098696a82af6022b7a06cfa08cb0cb00adac2c0e01a1c779d0",
+        "bytes": 516928
+      },
+      "book_env": {
+        "sha256": "9c8730bbe1875565854d69694374500cf6a0255eec0d44b93146890fa379e5ce",
+        "bytes": 988
+      }
+    },
+    {
+      "folder": "04. 너를 위하여 (산상수훈-팔복)",
+      "title": "너를 위하여",
+      "edition": "제1판",
+      "version": "1.0.0",
+      "release_date": "2009-08",
+      "reviewed": "no",
+      "sources": [
+        {
+          "path": "original/04 너를 위하여(산상후순).hwp",
+          "sha256": "75e0962d5d18e70831f39dfcc4fc1c5bb220c59e30679e388ef9297891a9085b",
+          "bytes": 382464
+        }
+      ],
+      "manuscript": {
+        "sha256": "ebb20c3a69c4771008d5df217bb456cda5ef93665a82a20a3cba0a30eea0b243",
+        "bytes": 217755
+      },
+      "cover": {
+        "sha256": "5c565c821f8d7d24d5e154ccbd4f1a2fd4c3f6e7f1813f72488902d2a29e6c6f",
+        "bytes": 130558
+      },
+      "book_env": {
+        "sha256": "6f05ad8af781a057e659430f89b7775023ba28289f3b2cb359cda7ab94de243a",
+        "bytes": 1113
+      }
+    },
+    {
+      "folder": "05. 물 위에 던진 떡(전도서)",
+      "title": "물 위에 던진 떡",
+      "edition": "제1판",
+      "version": "1.0.0",
+      "release_date": "2010-01",
+      "reviewed": "no",
+      "sources": [
+        {
+          "path": "original/05 물위에 던진 떡.hwp",
+          "sha256": "2d6bead3c323700b99abba6113d885be6eaf373e0a88ddf6ee2420c4d9c0dcb7",
+          "bytes": 921088
+        }
+      ],
+      "manuscript": {
+        "sha256": "16a19f982cd49d2788c0f971c3ae21dfa420f0220a8869fb55510af6146e9ccb",
+        "bytes": 531685
+      },
+      "cover": {
+        "sha256": "c23f1e6c816aefa496a6b1733ad9840624d44cfc94503cd2040b8684b77b509e",
+        "bytes": 123251
+      },
+      "book_env": {
+        "sha256": "8b662f7146144c2e66c4cebffa0e1efa8a259a6d4279694de8a8d8be37b95fb6",
+        "bytes": 1169
+      }
+    },
+    {
+      "folder": "07. 제사보다 나은 순종(사무엘상)",
+      "title": "사무엘상 강해",
+      "edition": "제1판",
+      "version": "1.0.0",
+      "release_date": "2015-11",
+      "reviewed": "no",
+      "sources": [
+        {
+          "path": "original/사무엘상1_합본.hwp",
+          "sha256": "c11f5d62c205d9cb67fd0cc52a93b4ab99ec8690ddbb30e4bfffe39ba08bb59c",
+          "bytes": 817664
+        },
+        {
+          "path": "original/사무엘상2_합본.hwp",
+          "sha256": "e84c0839fad627caec802130b499f14562ed41b22ae08a3e0f91fa85642defb8",
+          "bytes": 813056
+        }
+      ],
+      "manuscript": {
+        "sha256": "8865e5d98511d80d93e74fc5c960dee0884920ad0737da2721ee80a03c8d481c",
+        "bytes": 674480
+      },
+      "cover": {
+        "sha256": "e31e60934d8e3aa0fc947bbb7b71707c6381085dced69173a4720ef0944c23c9",
+        "bytes": 386210
+      },
+      "book_env": {
+        "sha256": "7c629aa27324b855dc61770e5b0ee3bfb40f3a071ebe081b88995d29245a1e9a",
+        "bytes": 1119
+      }
+    },
+    {
+      "folder": "08. 내가 사랑하는 자야(기도문)",
+      "title": "내가 사랑하는 자야",
+      "edition": "제2판",
+      "version": "1.0.0",
+      "release_date": "2019-03",
+      "reviewed": "no",
+      "sources": [
+        {
+          "path": "original/내가 사랑하는 자야2.hwp",
+          "sha256": "7eb4c62020340e7190a1c2742bccc05161abea675546741cd34a865e8d547731",
+          "bytes": 4070400
+        }
+      ],
+      "manuscript": {
+        "sha256": "999ac880115044ad564bcb7735b539b317124cfcd1ad0af4ecbe73ac4b9c4ea1",
+        "bytes": 99799
+      },
+      "cover": {
+        "sha256": "f230204b5f44e3dc831ca568cd82002b4f67459e273e43ebe46c58c68aef7109",
+        "bytes": 656711
+      },
+      "book_env": {
+        "sha256": "65e91c50ab5b7e94d3d40b98ab6751dacd2f0f7aad5d27c61a0833a84b347476",
+        "bytes": 873
+      }
+    },
+    {
+      "folder": "09. 본향으로 가는 발걸음(룻기)",
+      "title": "룻기 강해",
+      "edition": "제1판",
+      "version": "1.0.0",
+      "release_date": "2018-05",
+      "reviewed": "no",
+      "sources": [
+        {
+          "path": "original/본문양식-룻.hwp",
+          "sha256": "ca367da9182120a932c7ad84321a1b63df82220204031df90fcc1f8d281d62be",
+          "bytes": 761344
+        }
+      ],
+      "manuscript": {
+        "sha256": "80ff4ce4c5e161bed1e1ec8a62a398457ac143a8f8c40c2c5bd438ed1c2c820e",
+        "bytes": 170241
+      },
+      "cover": {
+        "sha256": "b0240d4d23a8894a65eb43a318839fb40285bdc8333e7611fde5706f8d2826e3",
+        "bytes": 557022
+      },
+      "book_env": {
+        "sha256": "0289131a70fa3f1b5f4fd0e97f277b1283cd599aa43572b68c70724db142109a",
+        "bytes": 1093
+      }
+    },
+    {
+      "folder": "10. 스데반의 믿음(사도행전)",
+      "title": "사도행전 강해",
+      "edition": "제1판",
+      "version": "1.0.0",
+      "release_date": "2018-12",
+      "reviewed": "no",
+      "sources": [
+        {
+          "path": "original/스데반+본문+목사님+최종+수정본(1220).hwp",
+          "sha256": "e9781507e57f6ffa3f0656bd8517a724a277107f6e477ded1d2d8eb38fe9a8e5",
+          "bytes": 726528
+        }
+      ],
+      "manuscript": {
+        "sha256": "9087cc259d23a5fba229176e7ddf8664d2febf550b81698396269b545bb424f6",
+        "bytes": 113914
+      },
+      "cover": {
+        "sha256": "a09280770b67393b908a9141340a072ff5fed47d6d80733bc8cde5101a714b44",
+        "bytes": 155567
+      },
+      "book_env": {
+        "sha256": "692b0443344fad73e2c41f4f1c4db0ac1a8e796ecd8839119793b10c93a9798c",
+        "bytes": 1140
+      }
+    },
+    {
+      "folder": "11. 교회가 걸어가는 길(요한계시록 일곱 교회)",
+      "title": "요한계시록 강해",
+      "edition": "제1판",
+      "version": "1.0.0",
+      "release_date": "2019-05",
+      "reviewed": "no",
+      "sources": [
+        {
+          "path": "original/교회가 걸어가는 길(요한계시록)_190515.hwp",
+          "sha256": "c0dc012ea12b05e3c4aaea3cb4ccb9def11b19a158ca780ff226a920a0d1b99b",
+          "bytes": 738816
+        }
+      ],
+      "manuscript": {
+        "sha256": "421b0660dad177feddc8a99f8b34af65dae30210e583991202b56eebfeb89ccc",
+        "bytes": 199391
+      },
+      "cover": {
+        "sha256": "2e0bdee06718e5b2ea1ee65969b5368dd522036e0dc4c824cb8dc46555dca88e",
+        "bytes": 366521
+      },
+      "book_env": {
+        "sha256": "c8b3e38144e31ca69ba7beea050db3635fefe1a366ffe4ff24e5ce071e5c4d18",
+        "bytes": 1136
+      }
+    },
+    {
+      "folder": "12. 너희가 섬길 자를 오늘 택하라(여호수아)",
+      "title": "여호수아 강해",
+      "edition": "제1판",
+      "version": "1.0.0",
+      "release_date": "2019-11",
+      "reviewed": "no",
+      "sources": [
+        {
+          "path": "original/여호수아본문_1109.hwp",
+          "sha256": "047829be7a8cec9da263344b69404e1d63ed9953be0bec19702a4541749a8ebc",
+          "bytes": 1149952
+        }
+      ],
+      "manuscript": {
+        "sha256": "72fc1781fe611ecdfad0da460774cb5dfb760dcfc932b619ed97a9f57f6214d6",
+        "bytes": 755787
+      },
+      "cover": {
+        "sha256": "4677a906516322488dc771fe59303171f643cff5c64cd45145e383140b3ebe73",
+        "bytes": 370632
+      },
+      "book_env": {
+        "sha256": "8771ed43d23062187cc4002b02e4d2274ab54c1e587b411578035884e588f344",
+        "bytes": 992
+      }
+    },
+    {
+      "folder": "13. 너희가 내 목소리를 듣지 아니하였으니 어찌하여 그리하였느냐(사사기)",
+      "title": "사사기 강해",
+      "edition": "제1판",
+      "version": "1.0.0",
+      "release_date": "2020-06",
+      "reviewed": "no",
+      "sources": [
+        {
+          "path": "original/사사기_0718.hwp",
+          "sha256": "b20ee90aaf92dbeb8cd7ca657ab8edd7245a3bb51d56a635d2c869bf9166d406",
+          "bytes": 951808
+        }
+      ],
+      "manuscript": {
+        "sha256": "d515b6e121cd4930094e224c53b9e7c861fe7f3fe7ee6b231ab9f01559de7b1c",
+        "bytes": 561597
+      },
+      "cover": {
+        "sha256": "a177a2af0510d7aee0987b19c63523ba5b36543e6d9470bbe31f2f1993c54798",
+        "bytes": 505216
+      },
+      "book_env": {
+        "sha256": "b5376fac56697a1d00803f6c1f2c521092d604cce8770f103e780b67fb333ad2",
+        "bytes": 950
+      }
+    },
+    {
+      "folder": "15. 주 안에서 받은 직분을 삼가지키라(골로새서)",
+      "title": "골로새서 강해",
+      "edition": "제1판",
+      "version": "1.0.0",
+      "release_date": "2022-11",
+      "reviewed": "no",
+      "sources": [
+        {
+          "path": "original/골로새서_합본(1028).hwp",
+          "sha256": "984fe835edc8cd9909b34caeb7582882a0c2b35d22e287cae5baad9d7e7f408a",
+          "bytes": 1338368
+        }
+      ],
+      "manuscript": {
+        "sha256": "b8031907f5ad0aadd035cb79dca655dc0f67d54fc65d046f2d5cc993bfb4d1f7",
+        "bytes": 154008
+      },
+      "cover": {
+        "sha256": "800bb2539e0934317566de87a0a81adf3ba02bd32b4b3ee1b39ef43a0cf39bf9",
+        "bytes": 126231
+      },
+      "book_env": {
+        "sha256": "427784232f7b2517f883df57baafe1839ecd8574ff0dfaafc87f584cc787a8a5",
+        "bytes": 1040
+      }
+    },
+    {
+      "folder": "16. 율법의 요구와 십자가의 완성(로마서)",
+      "title": "로마서 강해",
+      "edition": "제1판",
+      "version": "1.0.0",
+      "release_date": "2023-10",
+      "reviewed": "no",
+      "sources": [
+        {
+          "path": "original/로마서 합본.hwp",
+          "sha256": "4ce7df92f84188410f2a79392185fe4e4e06b95e1fa89a7b51e8edf2f46f3df5",
+          "bytes": 2236928
+        }
+      ],
+      "manuscript": {
+        "sha256": "44362dad6054fb016c020ec59540ab021556ddb09391420e63506e96b39dac28",
+        "bytes": 826688
+      },
+      "cover": {
+        "sha256": "a20c462263f6e393138a51ce2c00f4839d4a156bd2bc60bf4f5cefafbf7bed4b",
+        "bytes": 126646
+      },
+      "book_env": {
+        "sha256": "23f886581e8ea84dad69100d2935ace6a3657d416667c0e7b818618f3c543f11",
+        "bytes": 1832
+      }
+    },
+    {
+      "folder": "17. 아모스",
+      "title": "아모스 강해",
+      "edition": "제1판",
+      "version": "1.0.0",
+      "release_date": "2024-02",
+      "reviewed": "yes",
+      "sources": [
+        {
+          "path": "original/17 아모스.hwp",
+          "sha256": "3e449e938d6fcbe7aa93c4ffc5351e84224fefc2b2782c3a18b6cf4ee8d8b255",
+          "bytes": 416768
+        }
+      ],
+      "manuscript": {
+        "sha256": "59b13d512828e4561f0bd4ccaf64d502c3f4870f6c4d33afc588869a6a3d5e26",
+        "bytes": 218822
+      },
+      "cover": {
+        "sha256": "77ac9df6c29ba5588f38fe97c0104f25513203693c70c6c66d70e43548b17836",
+        "bytes": 121483
+      },
+      "book_env": {
+        "sha256": "a1d14d365bf41d4089620b05c54cc0c6700128cdb1cb2ee4cd926bc3d6f95a17",
+        "bytes": 2159
+      }
+    },
+    {
+      "folder": "18. 죄의 삯은 사망이라(사무엘하)",
+      "title": "사무엘하 강해",
+      "edition": "제1판",
+      "version": "1.0.0",
+      "release_date": "2025-11",
+      "reviewed": "no",
+      "sources": [
+        {
+          "path": "original/사무엘하 합본.hwp",
+          "sha256": "bc78e13477011c509320d85381cb3a67f38a6271e03479a940f1bd32fdcc0572",
+          "bytes": 890880
+        }
+      ],
+      "manuscript": {
+        "sha256": "72061c382c6eb260b46bb1f3da18a4e79fe8c41a9cef4fedabd43f590486b60a",
+        "bytes": 599836
+      },
+      "cover": {
+        "sha256": "208edf0856b0acb29b939f9b96033540c29e0e8148683732d6dc0754c04e7cc7",
+        "bytes": 129113
+      },
+      "book_env": {
+        "sha256": "08034abd9de3d86506587112d6e351ddfd4fb2ae67f021443e97b83b50500719",
+        "bytes": 1084
+      }
+    }
+  ]
+}

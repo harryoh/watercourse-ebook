@@ -17,9 +17,18 @@
 ## 재생성 / 빌드
 ```bash
 python3 shared/lib/extract_hwp.py "books/05. 물 위에 던진 떡(전도서)"   # 기존 manuscript.md 보존(--force로 덮어쓰기)
-python3 shared/lib/make_cover.py "books/05. 물 위에 던진 떡(전도서)"
 python3 shared/lib/review.py "books/05. 물 위에 던진 떡(전도서)"
 ./build.sh "books/05. 물 위에 던진 떡(전도서)"
+```
+
+## 표지(앞표지)
+
+- **원본 표지**: `05 물위에 던진 떡(전도서)_표지.pdf` — 앞·뒤표지+책등(+날개) **펼침**(표지 PDF).
+- **추출**: 300dpi 변환 후 **앞표지 영역만** 잘라 폭 1400px JPEG(품질 90)로 저장. 책등·뒤표지·날개 제외.
+- **앞표지 영역(비율)**: 좌 51.5% ~ 우 79.0%, 상 4.5% ~ 하 93.5%  → `book.env`의 `COVER_CROP`
+- **재현**(book.env의 COVER_SRC/COVER_CROP 사용):
+```bash
+python3 shared/lib/extract_cover.py "books/05. 물 위에 던진 떡(전도서)" --src-root "<원본 표지가 있는 폴더>"
 ```
 
 ## 주의

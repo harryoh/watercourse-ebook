@@ -17,9 +17,18 @@
 ## 재생성 / 빌드
 ```bash
 python3 "books/(소)생명을 살리는 방주/build_manuscript.py"   # 커스텀 빌더(소스 위치 의존)
-python3 shared/lib/make_cover.py "books/(소)생명을 살리는 방주"
 python3 shared/lib/review.py "books/(소)생명을 살리는 방주"
 ./build.sh "books/(소)생명을 살리는 방주"
+```
+
+## 표지(앞표지)
+
+- **원본 표지**: `생명을살리는방주 표지.ai` — 앞·뒤표지+책등(+날개) **펼침**(표지 AI(=PDF 호환)).
+- **추출**: 300dpi 변환 후 **앞표지 영역만** 잘라 폭 1400px JPEG(품질 90)로 저장. 책등·뒤표지·날개 제외.
+- **앞표지 영역(비율)**: 좌 47.5% ~ 우 93.0%, 상 4.0% ~ 하 96.0%  → `book.env`의 `COVER_CROP`
+- **재현**(book.env의 COVER_SRC/COVER_CROP 사용):
+```bash
+python3 shared/lib/extract_cover.py "books/(소)생명을 살리는 방주" --src-root "<원본 표지가 있는 폴더>"
 ```
 
 ## 주의

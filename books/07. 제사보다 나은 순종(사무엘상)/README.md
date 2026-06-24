@@ -17,9 +17,18 @@
 ## 재생성 / 빌드
 ```bash
 python3 "books/07. 제사보다 나은 순종(사무엘상)/build_manuscript.py"   # 커스텀 빌더(소스 위치 의존)
-python3 shared/lib/make_cover.py "books/07. 제사보다 나은 순종(사무엘상)"
 python3 shared/lib/review.py "books/07. 제사보다 나은 순종(사무엘상)"
 ./build.sh "books/07. 제사보다 나은 순종(사무엘상)"
+```
+
+## 표지(앞표지)
+
+- **원본 표지**: `표지/사무엘상 표지(최종 1026)_1.ai` — 앞·뒤표지+책등(+날개) **펼침**(표지 AI(=PDF 호환)).
+- **추출**: 300dpi 변환 후 **앞표지 영역만** 잘라 폭 1400px JPEG(품질 90)로 저장. 책등·뒤표지·날개 제외.
+- **앞표지 영역(비율)**: 좌 51.5% ~ 우 79.5%, 상 4.5% ~ 하 93.5%  → `book.env`의 `COVER_CROP`
+- **재현**(book.env의 COVER_SRC/COVER_CROP 사용):
+```bash
+python3 shared/lib/extract_cover.py "books/07. 제사보다 나은 순종(사무엘상)" --src-root "<원본 표지가 있는 폴더>"
 ```
 
 ## 주의

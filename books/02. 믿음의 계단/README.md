@@ -17,9 +17,18 @@
 ## 재생성 / 빌드
 ```bash
 python3 "books/02. 믿음의 계단/build_manuscript.py"   # 출판 EPUB 기반(소스 위치 의존)
-python3 shared/lib/make_cover.py "books/02. 믿음의 계단"
 python3 shared/lib/review.py "books/02. 믿음의 계단"
 ./build.sh "books/02. 믿음의 계단"
+```
+
+## 표지(앞표지)
+
+- **원본 표지**: `출판/images/front.jpg` — 앞표지만 있는 **단독 이미지**(펼침/책등/날개 없음).
+- **추출**: 잘라내기 불필요. 그대로(필요 시 폭 1400px 축소) cover.jpg로 사용.
+- **book.env**: `COVER_SRC="출판/images/front.jpg"`  (COVER_CROP 없음)
+- **재현**(book.env의 COVER_SRC/COVER_CROP 사용):
+```bash
+python3 shared/lib/extract_cover.py "books/02. 믿음의 계단" --src-root "<원본 표지가 있는 폴더>"
 ```
 
 ## 주의

@@ -15,7 +15,8 @@
 
 ## 역할 분담
 - 스크립트(고정): `shared/lib/hwp5.py`(HWP 원문 추출), `shared/lib/dump.py`(원문 덤프),
-  `shared/lib/make_cover.py`(표지), `build.sh`(Calibre로 md→EPUB)
+  `shared/lib/extract_cover.py`(원본 표지→앞표지), `shared/lib/make_cover.py`(원본 표지 없을 때 글자 표지),
+  `shared/lib/manifest.py`(원고 해시 기록/변경 감지), `build.sh`(Calibre로 md→EPUB)
 - Claude(판단): 덤프한 원문을 읽고 `books/<slug>/manuscript.md` 구조화 + `books/<slug>/book.env` 작성
 
 ## 새 책 만드는 절차 (Claude가 수행)
@@ -29,11 +30,22 @@
 6. **검토(교정)**: `python3 shared/lib/review.py books/<slug>` 로 자동 점검 + `docs/검토체크리스트.md`로 사람 눈 검토.
    - 제목 오타·띄어쓰기, 장 누락, 본문/성경구절 정확성 등 **내용 교정은 여기서 manuscript.md를 직접 고친다**(빌드가 고치지 않음).
    - 통과하면 `book.env`에 `REVIEWED="yes"`, `REVIEW_DATE` 표시.
-7. **표지**: `python3 shared/lib/make_cover.py books/<slug>` (book.env의 COVER_* 사용) 또는 직접 `cover.jpg` 교체.
+7. **표지**: 원본 표지(앞·뒤·책등 펼침 PDF/AI 또는 단독 이미지)에서 **앞표지만** 뽑는다.
+   `book.env`에 `COVER_SRC`(원본 표지 경로)·`COVER_CROP`(앞표지 영역 비율 `x0,x1,y0,y1`)를 적고
+   `python3 shared/lib/extract_cover.py books/<slug> --src-root "<원본 표지 폴더>"`.
+   책등·뒤표지·날개는 제외한다. 원본 표지가 전혀 없을 때만 `make_cover.py`로 글자 표지를 만든다.
 8. **빌드**: `./build.sh books/<slug>`  → `books/<slug>/output/제목 - 제N판 vX (날짜).epub`
    - 주의: `build.sh`는 macOS의 Calibre(`/Applications/calibre.app/...`)를 호출한다. Claude 샌드박스에는
      Calibre가 없으므로 빌드는 보통 사용자 터미널에서 실행하거나, 사용자에게 명령을 전달한다.
 9. **검증**: 생성된 EPUB을 풀어 목차/장 구성/한글/표지/판권(판·발행일·버전)을 확인한다.
+10. **해시 기록**: `python3 shared/lib/manifest.py write` 로 `manifest.json` 갱신 후 커밋.
+
+## 원고 변경 감지·재빌드 (필수 습관)
+원본·원고가 바뀌었는지 해시로 추적한다. 작업/검토를 시작하기 전, 또는 정기적으로:
+- `python3 shared/lib/manifest.py check` → 마지막 기록과 다른 책을 출력(변경 있으면 종료코드 1).
+- 변경된 책은 다시 빌드한다(원본 HWP가 바뀌었으면 `extract_hwp.py`부터, 표지가 바뀌었으면 `extract_cover.py`부터). `style.css` 변경 시 전 책 재빌드.
+- 재빌드 후 반드시 `manifest.py write` 로 해시를 갱신하고 커밋한다.
+- 변경 감지 기준은 `manifest.json` 하나. 사람용 책 목록은 루트 `README.md`의 "책 목록" 표. **README에는 해시를 넣지 않는다.**
 
 ## manuscript.md 마크업 규칙
 Markdown + 일부 raw HTML(클래스 지정용). 스타일은 `shared/style.css`가 담당.
@@ -93,8 +105,10 @@ blockquote(성경 인용), `colophon(.bk/.subk/.pubinfo/.ver)`, `church-info`.
 | `VIDEO` | 표제지 동영상 안내 문구 | `"동영상 설교는 …"` |
 | `PREFACE_SIGN` | 머리말 서명(`|`로 줄바꿈) | `"2024년 2월|물줄기교회 목사 조춘숙"` |
 | `COLOPHON` | 판권 항목(`|`로 줄바꿈, 판/발행일/버전은 넣지 말 것) | `"지은이  …|주소  …|전화  …"` |
-| `COVER_VERSE` | 표지 대표구절(`|`구분, 마지막=출처) | `"너희는 나를 찾으라|그리하면 살리라|아모스 5장 4절"` |
-| `COVER_BG` / `COVER_ACCENT` | 표지 배경/강조색(hex) | `"1c3144"` / `"c9a25a"` |
+| `COVER_SRC` | 원본 표지 파일(소스 루트 기준 상대경로) | `"표지/아가서_표지_cre.ai"` |
+| `COVER_CROP` | 앞표지 영역 비율 `x0,x1,y0,y1`(단독 이미지면 생략) | `"0.505,0.795,0.045,0.935"` |
+| `COVER_VERSE` | (예비) 글자 표지용 대표구절(`|`구분, 마지막=출처) | `"너희는 나를 찾으라|그리하면 살리라|아모스 5장 4절"` |
+| `COVER_BG` / `COVER_ACCENT` | (예비) 글자 표지 배경/강조색(hex) | `"1c3144"` / `"c9a25a"` |
 
 build.sh는 book.env를 읽어 EPUB 메타데이터·파일명을 만든다. EDITION/VERSION/RELEASE_DATE → 파일명·발행일·설명에 반영.
 
