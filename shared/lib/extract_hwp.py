@@ -35,7 +35,7 @@ BIBLE_BOOKS = [
 # 한 문단 전체가 '책이름 N장 [M~K절]' / '시편 N편' 형태인 성경 참조 라벨
 REF_RE = re.compile(
     r'^(?:' + '|'.join(BIBLE_BOOKS) + r')\s*\d+\s*(?:장|편)'
-    r'(?:\s*\d+(?:\s*[~∼\-,]\s*\d+)?\s*절)?\s*$')
+    r'[\d\s~∼\-,·장절]*$')   # 장 범위(예: 4장 8절~5장 2절)까지 허용
 
 def _format_date_kr(d):
     """'2024-02' -> '2024년 2월', '2024-02-15' -> '2024년 2월 15일'. 그 외는 원문 반환."""
@@ -76,17 +76,25 @@ def main(book_dir):
     # 이미지 추출
     imgdir=os.path.join(book_dir,'images','_extracted')
     reader.extract_images(src, imgdir)
-    opener=re.compile(r'^'+re.escape(bible)+r'\s*\d+\s*장')
+    # BIBLE_REF 지정 시 그 책으로, 비우면 전체 성경 참조(REF_RE)로 장 시작 인식 (주제별 책 대응)
+    opener=re.compile(r'^'+re.escape(bible)+r'\s*\d+\s*장') if bible else REF_RE
+    # 문서 전반에 4회 이상 반복되는 긴 라인 = 러닝헤더/꼬리말 → 본문에서 제거
+    from collections import Counter as _C
+    _freq=_C(norm(p) for p in paras if p.strip())
+    running={t for t,c in _freq.items() if c>=4 and len(t)>=8 and not REF_RE.match(t)}
     # 1) 차례에서 장 제목 수집 (차례 영역 한정, 점선형/공백형 모두 지원)
     toc=_parse_toc(paras)
     N=max(toc) if toc else 0
-    # 2) 본문 장 시작 인덱스 (숫자 단독 문단 + 이후 곧 성경구절)
+    # 2) 본문 장 시작 인덱스 (숫자 단독 문단 + 이후 곧 성경구절 OR 차례 제목 일치)
+    #    주제형 책(성경 도입구절 없는 장)도 제목 일치로 인식.
+    def _sq(s): return re.sub(r'\s','',s)
     starts={}
     for k in range(1,N+1):
+        tk=_sq(toc.get(k,''))
         for i,p in enumerate(paras):
-            if p.strip()==str(k):
+            if p.strip() in (str(k), '%02d'%k):   # '9' 또는 '09'(0채움) 허용
                 nb=[paras[j].strip() for j in range(i+1,min(i+10,len(paras))) if paras[j].strip()]
-                if any(opener.match(x) for x in nb):
+                if any(opener.match(x) for x in nb) or (tk and any(_sq(x)==tk for x in nb[:3])):
                     starts[k]=i; break
     order=sorted(starts.items(), key=lambda x:x[1])
     # 3) 머리말
@@ -108,6 +116,7 @@ def main(book_dir):
             t=norm(p)
             if not t: continue
             if re.fullmatch(r'\d{1,3}', t): continue          # 페이지번호
+            if t in running: continue                         # 러닝헤더/꼬리말(문서 전반 반복)
             if title and t==title: continue                   # 러닝헤더(장 제목 반복)
             if t in ('물줄기교회 조춘숙 목사','조춘숙 목사','물줄기교회','물줄기교회를 검색해 주세요!'): continue
             if REF_RE.match(t): out.append(('ref',t)); expect_quote=True; continue
@@ -125,10 +134,17 @@ def main(book_dir):
                 tt=paras[i].strip()
                 if tt.startswith('초판') or tt=='지은이': end=i; break
         seg=paras[st:end]
-        op=next((i for i,p in enumerate(seg) if opener.match(p.strip())), 1)
         title=toc.get(k, norm(seg[1]) if len(seg)>1 else f'{k}장')
-        passage=norm(seg[op]) if op<len(seg) else ''
-        chapters.append((k,title,passage,blocks_of(seg[op+1:], title)))
+        opi=next((j for j,p in enumerate(seg) if opener.match(p.strip())), None)
+        if opi is not None:
+            passage=norm(seg[opi]); body=seg[opi+1:]
+        else:
+            # 성경 도입구절 없는 주제형 장: 번호+제목 줄 건너뛰고 본문부터
+            passage=''; tk=_sq(title); bs=1
+            while bs<len(seg) and (not seg[bs].strip() or _sq(seg[bs])==tk):
+                bs+=1
+            body=seg[bs:]
+        chapters.append((k,title,passage,blocks_of(body, title)))
     # 안전 가드: 기존 manuscript.md(손편집본)를 덮어쓰지 않는다.
     out = os.path.join(book_dir, 'manuscript.md')
     if os.path.exists(out) and '--force' not in sys.argv:
@@ -157,11 +173,12 @@ def write_md(book_dir, env, preface, chapters, out=None):
     ap(f'<p class="pub">{env.get("PUBLISHER","")}</p>')
     if env.get('VIDEO'): ap(f'<p class="vid">{env["VIDEO"]}</p>')
     ap('</div>'); ap('')
-    # 머리말
-    ap('# 이 책을 읽는 분들께'); ap('')
-    for p in preface: ap(p); ap('')
-    sign=env.get('PREFACE_SIGN','').split('|')
-    if any(sign): ap('<p class="sign">'+'<br/>'.join(s for s in sign if s)+'</p>'); ap('')
+    # 머리말 (있을 때만)
+    if preface:
+        ap('# 이 책을 읽는 분들께'); ap('')
+        for p in preface: ap(p); ap('')
+        sign=env.get('PREFACE_SIGN','').split('|')
+        if any(sign): ap('<p class="sign">'+'<br/>'.join(s for s in sign if s)+'</p>'); ap('')
     # 본문
     for (k,title,passage,blocks) in chapters:
         ap(f'# {k}. {title}'); ap('')

@@ -10,7 +10,7 @@ for r,_,fs in os.walk(d):
     for f in fs:
         if '방주' in nfc(f) and f.lower().endswith('.hwp'): src=os.path.join(r,f)
 P=hwp5.extract_paragraphs(src)
-bdir=os.path.join(ROOT,'books','06s-ark')
+bdir=os.path.join(ROOT,'books','booklet-ark')
 os.makedirs(os.path.join(bdir,'original'),exist_ok=True); os.makedirs(os.path.join(bdir,'images'),exist_ok=True)
 shutil.copyfile(src, os.path.join(bdir,'original',os.path.basename(src)))
 NOISE_RE=re.compile(r'^생명을 살리는 방주')

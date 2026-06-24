@@ -57,6 +57,10 @@ Calibre는 무료 오픈소스(GPLv3)입니다.
 
 ### EPUB 빌드 (가장 자주 쓰는 명령)
 ```bash
+./build-all.sh      # 모든 책을 한 번에 빌드
+```
+
+```bash
 cd watercourse-ebook
 ./build.sh books/17-amos
 # → books/17-amos/output/아모스 강해.epub

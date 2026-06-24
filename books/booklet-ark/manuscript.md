@@ -7,8 +7,6 @@
 <p class="vid">동영상 설교는 https://vimeo.com/watercourse 또는 YouTube에서 “물줄기교회”를 검색해 주세요.</p>
 </div>
 
-# 이 책을 읽는 분들께
-
 # 1. 생명을 살리는 방주 (Ⅰ)
 
 <p class="passage">출애굽기 2장 1~10절</p>
