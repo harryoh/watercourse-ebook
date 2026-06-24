@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # 새 책 폴더 생성:  ./new-book.sh <폴더이름> ["책 제목"]
-#   예) ./new-book.sh 16-romans "로마서 강해"
+#   예) ./new-book.sh "19. 새책 제목" "표지 제목"
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")" && pwd)"
 SLUG="${1:?사용법: ./new-book.sh <폴더이름> [\"책 제목\"]  예: ./new-book.sh 16-romans \"로마서 강해\"}"

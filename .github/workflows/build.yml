@@ -13,7 +13,7 @@ on:
   workflow_dispatch:
     inputs:
       book:
-        description: '빌드할 책 폴더 (예: books/sample). 비우면 변경분 자동/전체'
+        description: '빌드할 책 폴더 (예: "books/17. 아모스"). 비우면 변경분 자동/전체'
         required: false
         default: ''
 
@@ -25,73 +25,75 @@ jobs:
         with:
           fetch-depth: 0   # 변경 책 감지를 위해 이전 커밋까지 필요
 
+      # 빌드 대상 책 폴더를 selected_books.txt 에 한 줄에 하나씩 기록(폴더명 공백 안전)
       - name: 빌드할 책 결정 (변경분만)
         id: pick
         run: |
           set -e
-          # 1) 수동 실행에서 책을 지정한 경우
+          all() { for d in books/*/; do printf '%s\n' "${d%/}"; done; }
           if [ -n "${{ github.event.inputs.book }}" ]; then
-            echo "books=${{ github.event.inputs.book }}" >> "$GITHUB_OUTPUT"; exit 0
+            printf '%s\n' "${{ github.event.inputs.book }}" > selected_books.txt
+          else
+            base="${{ github.event.before }}"
+            if [ "${{ github.ref_type }}" = "tag" ] || [ -z "$base" ] || \
+               [ "$base" = "0000000000000000000000000000000000000000" ] || \
+               ! git cat-file -e "${base}^{commit}" 2>/dev/null; then
+              all > selected_books.txt
+            else
+              changed=$(git diff --name-only "$base" "${{ github.sha }}")
+              if printf '%s\n' "$changed" | grep -qE '^(shared/|build\.sh|\.github/)'; then
+                all > selected_books.txt
+              else
+                printf '%s\n' "$changed" | grep -oE '^books/[^/]+' | sort -u > selected_books.txt || true
+              fi
+            fi
           fi
-          all() { ls -d books/*/ | tr '\n' ' '; }
-          base="${{ github.event.before }}"
-          # 2) 태그 빌드 / 첫 푸시 / 이전 커밋 불명 → 전체
-          if [ "${{ github.ref_type }}" = "tag" ] || [ -z "$base" ] || \
-             [ "$base" = "0000000000000000000000000000000000000000" ] || \
-             ! git cat-file -e "${base}^{commit}" 2>/dev/null; then
-            echo "books=$(all)" >> "$GITHUB_OUTPUT"; exit 0
-          fi
-          changed=$(git diff --name-only "$base" "${{ github.sha }}")
-          # 3) 공통 파일(shared/·build.sh·workflow) 변경 → 전체 재빌드
-          if echo "$changed" | grep -qE '^(shared/|build\.sh|\.github/)'; then
-            echo "books=$(all)" >> "$GITHUB_OUTPUT"; exit 0
-          fi
-          # 4) 변경된 books/<slug>/ 만 선택
-          sel=$(echo "$changed" | grep -oE '^books/[^/]+/' | sort -u | tr '\n' ' ')
-          echo "books=${sel}" >> "$GITHUB_OUTPUT"
-          echo "선택된 책: ${sel:-(없음)}"
+          n=$(grep -c . selected_books.txt || true)
+          echo "count=$n" >> "$GITHUB_OUTPUT"
+          echo "빌드 대상 ${n}권:"; cat selected_books.txt
 
       - name: Calibre + xvfb 설치
-        if: steps.pick.outputs.books != ''
+        if: steps.pick.outputs.count != '0'
         run: |
           sudo apt-get update
           sudo apt-get install -y xvfb libopengl0 libegl1 libxcb-cursor0
-          # 최신 Calibre 공식 설치 스크립트
           sudo -v && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin
           ebook-convert --version
 
       - name: EPUB 빌드
-        if: steps.pick.outputs.books != ''
+        if: steps.pick.outputs.count != '0'
         run: |
           set -e
-          for b in ${{ steps.pick.outputs.books }}; do
+          while IFS= read -r b; do
+            [ -n "$b" ] || continue
             echo "::group::빌드 $b"
             xvfb-run -a bash build.sh "$b"
             echo "::endgroup::"
-          done
+          done < selected_books.txt
 
       - name: EPUB 규격 검증 (epubcheck)
-        if: steps.pick.outputs.books != ''
+        if: steps.pick.outputs.count != '0'
         run: |
           set -e
           ver=$(curl -s https://api.github.com/repos/w3c/epubcheck/releases/latest | grep -oP '"tag_name":\s*"v\K[^"]+')
-          [ -n "$ver" ] || ver="5.1.0"   # API 실패 시 폴백
+          [ -n "$ver" ] || ver="5.1.0"
           echo "epubcheck v$ver"
           wget -nv -O epubcheck.zip "https://github.com/w3c/epubcheck/releases/download/v${ver}/epubcheck-${ver}.zip"
           unzip -q epubcheck.zip
           fail=0
           shopt -s nullglob
-          for b in ${{ steps.pick.outputs.books }}; do
-            for f in "$b"output/*.epub; do
+          while IFS= read -r b; do
+            [ -n "$b" ] || continue
+            for f in "$b"/output/*.epub; do
               echo "::group::epubcheck $f"
               java -jar "epubcheck-${ver}/epubcheck.jar" "$f" || fail=1
               echo "::endgroup::"
             done
-          done
+          done < selected_books.txt
           [ "$fail" = 0 ] || { echo "::error::epubcheck에서 오류가 발견되었습니다"; exit 1; }
 
       - name: EPUB 아티팩트 업로드
-        if: always() && steps.pick.outputs.books != ''
+        if: always() && steps.pick.outputs.count != '0'
         uses: actions/upload-artifact@v6
         with:
           name: epubs
@@ -100,7 +102,7 @@ jobs:
 
       # 태그(vX.Y.Z)로 푸시하면 릴리스에 EPUB 첨부
       - name: 릴리스에 첨부 (태그 푸시 시)
-        if: startsWith(github.ref, 'refs/tags/') && steps.pick.outputs.books != ''
+        if: startsWith(github.ref, 'refs/tags/') && steps.pick.outputs.count != '0'
         uses: softprops/action-gh-release@v2
         with:
           files: books/**/output/*.epub

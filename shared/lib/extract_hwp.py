@@ -106,7 +106,7 @@ def main(book_dir):
         for i in range(pidx[-1]+1, first_start):
             t=norm(paras[i])
             if not t: continue
-            if re.match(r'^\d{4}\s*\.', t): break   # 발행일 서명부 시작 → 머리말 끝
+            if re.match(r'^\d{4}\s*[.년]', t): break   # 발행일/서명부 시작(예: 2022. / 2022년) → 머리말 끝
             preface.append(t)
     # 4) 본문 블록 만들기
     def blocks_of(rng, title=''):
@@ -168,7 +168,8 @@ def write_md(book_dir, env, preface, chapters, out=None):
     ap('<div class="title-page">')
     if logo: ap(f'<p class="logo"><img src="{logo}" alt="물줄기교회"/></p>')
     ap(f'<p class="bk">{env.get("BOOK_NAME","")}</p>')
-    ap(f'<p class="sub">{env.get("TITLE","")}</p>')
+    if env.get("TITLE","") and env.get("TITLE")!=env.get("BOOK_NAME"):
+        ap(f'<p class="sub">{env.get("TITLE","")}</p>')
     ap(f'<p class="au">{env.get("AUTHORS","")} {env.get("AUTHOR_TITLE","목사")}</p>')
     ap(f'<p class="pub">{env.get("PUBLISHER","")}</p>')
     if env.get('VIDEO'): ap(f'<p class="vid">{env["VIDEO"]}</p>')

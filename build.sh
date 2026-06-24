@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # md -> EPUB 빌드 (Calibre ebook-convert 사용)
-# 사용법:  ./build.sh books/17-amos
+# 사용법:  ./build.sh "books/17. 아모스"
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")" && pwd)"
-BOOK="${1:?사용법: ./build.sh <book_dir>  (예: ./build.sh books/17-amos)}"
+BOOK="${1:?사용법: ./build.sh <book_dir>  (예: ./build.sh "books/17. 아모스")}"
 BOOK="$(cd "$BOOK" && pwd)"
 # shellcheck disable=SC1091
 source "$BOOK/book.env"

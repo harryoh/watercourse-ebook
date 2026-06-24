@@ -2,7 +2,7 @@
 
 설교 강해집 원고(HWP·DOCX 등)를 **표준 도구로 재현 가능하게** EPUB 전자책으로 만드는 저장소입니다.
 
-`books/17-amos` 은 파이프라인이 실제로 동작하는 **예제(아모스 강해)** 입니다.
+`"books/17. 아모스"` 은 파이프라인이 실제로 동작하는 **예제(아모스 강해)** 입니다.
 이것으로 흐름을 익힌 뒤, 실제 원고를 한 권씩 `books/` 아래에 추가하면 됩니다.
 
 ## 변환 파이프라인
@@ -62,31 +62,31 @@ Calibre는 무료 오픈소스(GPLv3)입니다.
 
 ```bash
 cd watercourse-ebook
-./build.sh books/17-amos
-# → books/17-amos/output/아모스 강해.epub
+./build.sh "books/17. 아모스"
+# → "books/17. 아모스"/output/아모스 강해.epub
 ```
 
 ### 원고 검토 (출판 전 필수)
 빌드는 원고를 고치지 않습니다. 내용 교정은 이 단계에서 합니다.
 
 ```bash
-python3 shared/lib/review.py books/17-amos   # 자동 점검(보고 전용)
+python3 shared/lib/review.py "books/17. 아모스"   # 자동 점검(보고 전용)
 ```
 그 뒤 `docs/검토체크리스트.md`로 사람 눈 검토 → 통과하면 `book.env`에 `REVIEWED="yes"` 표시 → 빌드.
 
 ### 내용 수정
-`books/17-amos/manuscript.md` 를 텍스트 편집기로 고친 뒤 다시 `./build.sh books/17-amos` 실행.
+`"books/17. 아모스"/manuscript.md` 를 텍스트 편집기로 고친 뒤 다시 `./build.sh "books/17. 아모스"` 실행.
 
 ### 디자인(폰트 크기·인용박스·색 등) 수정
 `shared/style.css` 를 고친 뒤 다시 빌드. 모든 책에 공통 적용됩니다.
 
 ### 표지 수정
-`books/17-amos/book.env` 의 `COVER_*` 값(문구·색)을 바꾸고
-`python3 shared/lib/make_cover.py books/17-amos` 실행. 직접 만든 이미지를 `cover.jpg`로 덮어써도 됩니다.
+`"books/17. 아모스"/book.env` 의 `COVER_*` 값(문구·색)을 바꾸고
+`python3 shared/lib/make_cover.py "books/17. 아모스"` 실행. 직접 만든 이미지를 `cover.jpg`로 덮어써도 됩니다.
 
 ### HWP에서 원고 다시 추출 (원본이 바뀐 경우)
 ```bash
-python3 shared/lib/extract_hwp.py books/17-amos
+python3 shared/lib/extract_hwp.py "books/17. 아모스"
 ```
 ⚠️ `manuscript.md`를 새로 덮어씁니다. 손으로 편집한 내용이 있으면 백업 후 실행하세요.
 
@@ -95,14 +95,14 @@ python3 shared/lib/extract_hwp.py books/17-amos
 `book.env`는 그냥 `키="값"` 텍스트 파일입니다. 매번 새로 쓸 필요 없이 **스크립트로 폴더를 만들면 템플릿 `book.env`가 함께 생성**됩니다.
 
 ```bash
-./new-book.sh 16-romans "로마서 강해"      # books/16-romans/ 생성 (+ 템플릿 book.env)
+./new-book.sh "19. 새책 제목" "표지용 제목"      # "books/16. 율법의 요구와 십자가의 완성(로마서)"/ 생성 (+ 템플릿 book.env)
 ```
 그 다음:
-1. `books/16-romans/original/` 에 원본 HWP 넣기
-2. `books/16-romans/book.env` 열어서 값 채우기 (제목·`BOOK_NAME`·`BIBLE_REF`·`HWP_SOURCE`·발행일·표지문구 등)
-3. `python3 shared/lib/extract_hwp.py books/16-romans`   # HWP → manuscript.md
-4. `python3 shared/lib/make_cover.py books/16-romans`    # 표지 생성 (선택)
-5. `./build.sh books/16-romans`                          # EPUB 빌드
+1. `"books/16. 율법의 요구와 십자가의 완성(로마서)"/original/` 에 원본 HWP 넣기
+2. `"books/16. 율법의 요구와 십자가의 완성(로마서)"/book.env` 열어서 값 채우기 (제목·`BOOK_NAME`·`BIBLE_REF`·`HWP_SOURCE`·발행일·표지문구 등)
+3. `python3 shared/lib/extract_hwp.py "books/16. 율법의 요구와 십자가의 완성(로마서)"`   # HWP → manuscript.md
+4. `python3 shared/lib/make_cover.py "books/16. 율법의 요구와 십자가의 완성(로마서)"`    # 표지 생성 (선택)
+5. `./build.sh "books/16. 율법의 요구와 십자가의 완성(로마서)"`                          # EPUB 빌드
 
 > 템플릿 원본은 `templates/book.env` 에 주석과 함께 있습니다. 손으로 만들고 싶으면 이 파일을 복사해 고치면 됩니다.
 
@@ -147,16 +147,16 @@ python3 shared/lib/extract_hwp.py books/17-amos
 판마다 git 태그로 고정합니다. 과거 판의 소스와 EPUB이 영구 보존되고, 언제든 복구·재빌드할 수 있습니다.
 
 새 판(예: 로마서 제2판) 발행 순서:
-1. `books/16-romans/manuscript.md` 수정(개정 내용 반영)
-2. `books/16-romans/book.env` 에서 `EDITION="제2판"`, `VERSION="2.0.0"`, `RELEASE_DATE` 갱신
+1. `"books/16. 율법의 요구와 십자가의 완성(로마서)"/manuscript.md` 수정(개정 내용 반영)
+2. `"books/16. 율법의 요구와 십자가의 완성(로마서)"/book.env` 에서 `EDITION="제2판"`, `VERSION="2.0.0"`, `RELEASE_DATE` 갱신
 3. 커밋: `git add -A && git commit -m "edit: Romans 2nd edition"`
-4. 판 릴리스: `./release.sh books/16-romans`
-   - `romans-v2.0.0` 태그를 만들어 푸시 → GitHub Actions가 그 판을 빌드해 **Release에 EPUB 첨부**
+4. 판 릴리스: `./release.sh "books/16. 율법의 요구와 십자가의 완성(로마서)"`
+   - `16-v2.0.0` 태그를 만들어 푸시 → GitHub Actions가 그 판을 빌드해 **Release에 EPUB 첨부**
 
 과거 판 복구/재빌드:
 ```bash
-git checkout romans-v1.0.0    # 1판 시점으로
-./build.sh books/16-romans     # 1판 EPUB 재생성
+git checkout 16-v1.0.0    # 1판 시점으로
+./build.sh "books/16. 율법의 요구와 십자가의 완성(로마서)"     # 1판 EPUB 재생성
 git checkout main              # 최신으로 복귀
 ```
 - 작업트리는 항상 **최신 판 하나**만 깔끔하게 유지됩니다.

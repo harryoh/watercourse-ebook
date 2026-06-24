@@ -19,7 +19,7 @@
 - Claude(판단): 덤프한 원문을 읽고 `books/<slug>/manuscript.md` 구조화 + `books/<slug>/book.env` 작성
 
 ## 새 책 만드는 절차 (Claude가 수행)
-1. 폴더 생성: `./new-book.sh <slug> "제목"`  (예: `16-romans`). `original/`에 HWP를 둔다.
+1. 폴더 생성: `./new-book.sh <slug> "제목"`  (예: `19. 새책 제목`). `original/`에 HWP를 둔다.
 2. **원문 읽기**: `python3 shared/lib/dump.py books/<slug>/original/<파일>.hwp`
    - 전체 문단을 `[번호] 본문` 으로 출력. 이걸 읽고 구조를 파악한다(표제지/차례/머리말/장/판권/안내).
 3. **이미지 추출**: `python3 shared/lib/dump.py books/<slug>/original/<파일>.hwp --images books/<slug>/images/_extracted`
@@ -100,8 +100,8 @@ build.sh는 book.env를 읽어 EPUB 메타데이터·파일명을 만든다. EDI
 
 ## 버전 관리 규칙
 - 원고/디자인 수정 → `VERSION` 올림(예 1.0.0→1.0.1). 큰 개정 → `EDITION` 올림(제1판→제2판) + VERSION 리셋.
-- 수정 시 `git commit`. **판 발행 시 `./release.sh books/<슬러그>`** → `<슬러그>-v<VERSION>` 태그 푸시 → CI가 Release에 EPUB 첨부.
-- 과거 판 복구: `git checkout <슬러그>-v1.0.0 && ./build.sh books/<슬러그>`. 브랜치는 `main`.
+- 수정 시 `git commit`. **판 발행 시 `./release.sh books/<슬러그>`** → `<번호>-v<VERSION>` 태그 푸시 → CI가 Release에 EPUB 첨부.
+- 과거 판 복구: `git checkout <번호>-v1.0.0 && ./build.sh books/<슬러그>`. 브랜치는 `main`.
 - 재추출(extract_hwp)은 기존 manuscript.md를 덮어쓰지 않음(있으면 manuscript.regen.md로 저장, `--force`로 강제).
 
 ## 품질 원칙 (중요)
