@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-24",
+  "generated": "2026-06-25",
   "style_css": {
     "sha256": "64d8d4ebad160ad52c84ccbe91010d2bb9948e22cbc20ae29a934f0bd4acb113",
     "bytes": 2561
@@ -36,7 +36,7 @@
       "folder": "01. 죽어야만 사는 나라",
       "title": "죽어야만 사는 나라",
       "edition": "제1판",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "release_date": "2008-04",
       "reviewed": "no",
       "sources": [
@@ -51,12 +51,12 @@
         "bytes": 312442
       },
       "cover": {
-        "sha256": "205a043a7f9837df7b91ecba8d653dbaebde318450d88205801792531d133d7c",
-        "bytes": 129737
+        "sha256": "b2f7e42847d4382737797e74ea9f75e8d559e64a3a53ff5bc803b2f8ecd90f1b",
+        "bytes": 136259
       },
       "book_env": {
-        "sha256": "645936c6721f8678589d9983aaf57342234602458f5b7ada8047e82a9a22d7ee",
-        "bytes": 1206
+        "sha256": "2683305377880e0d9c6a27fc6c08bba5b3e675177e33ac0a21a17f8173b0512c",
+        "bytes": 1198
       }
     },
     {
@@ -159,6 +159,30 @@
       "book_env": {
         "sha256": "8b662f7146144c2e66c4cebffa0e1efa8a259a6d4279694de8a8d8be37b95fb6",
         "bytes": 1169
+      }
+    },
+    {
+      "folder": "06. 모든 사명을 사랑으로 감당하라(고린도전서)",
+      "title": "모든 사명을 사랑으로 감당하라",
+      "edition": "제1판",
+      "version": "1.0.0",
+      "release_date": "2014-02",
+      "reviewed": "no",
+      "sources": [
+        {
+          "path": "original/고린도전서합본.hwp",
+          "sha256": "c1158a5a338dc65a9603f8eb3e202bab74640fa6b36a946135267c0b0729848f",
+          "bytes": 382976
+        }
+      ],
+      "manuscript": {
+        "sha256": "735c23e7ae1fc9f55004fa69afad6aa0284f4dab46e8d9f76e6f4206ba5467db",
+        "bytes": 317639
+      },
+      "cover": null,
+      "book_env": {
+        "sha256": "e2c75d10ed2df25702ebe722b571a264c2bccb55b9397cfe1ca491d15d741b0b",
+        "bytes": 1023
       }
     },
     {
@@ -353,6 +377,33 @@
       "book_env": {
         "sha256": "b5376fac56697a1d00803f6c1f2c521092d604cce8770f103e780b67fb333ad2",
         "bytes": 950
+      }
+    },
+    {
+      "folder": "14. 주 안에서 같은 마음을 품으라(빌립보서)",
+      "title": "주 안에서 같은 마음을 품으라",
+      "edition": "제1판",
+      "version": "1.0.0",
+      "release_date": "2022-01",
+      "reviewed": "no",
+      "sources": [
+        {
+          "path": "original/빌립보서 합본(1213).hwp",
+          "sha256": "f65451777d2c698f7aebc755bc9b05edd9ba2da69accea6bf0755a71e9ecab68",
+          "bytes": 685056
+        }
+      ],
+      "manuscript": {
+        "sha256": "0337fbadb01bcc9f92cb9c314f878a81243d47c5f0524b58444fe2b6f408c863",
+        "bytes": 214279
+      },
+      "cover": {
+        "sha256": "056c7663c3757acc3b34d19ff17e0538819c79749e9923d305a6ab17e6bb70ff",
+        "bytes": 117162
+      },
+      "book_env": {
+        "sha256": "3192a86a679b4a7adc0ac1d49aafb0a5555a8390e4714b969055a6361383c2b9",
+        "bytes": 1047
       }
     },
     {
