@@ -81,10 +81,19 @@ def main(book_dir):
     # 문서 전반에 4회 이상 반복되는 긴 라인 = 러닝헤더/꼬리말 → 본문에서 제거
     from collections import Counter as _C
     _freq=_C(norm(p) for p in paras if p.strip())
-    running={t for t,c in _freq.items() if c>=4 and len(t)>=8 and not REF_RE.match(t)}
+    running={t for t,c in _freq.items() if c>=4 and len(t)>=5 and not REF_RE.match(t)}
     # 1) 차례에서 장 제목 수집 (차례 영역 한정, 점선형/공백형 모두 지원)
     toc=_parse_toc(paras)
     N=max(toc) if toc else 0
+    # 러닝헤더/꼬리말로 흔히 새는 것: 책 제목, 장 제목(번호 포함 형태)
+    _nosp=lambda s: re.sub(r'\s','',s)
+    _chap_titles={_nosp(v) for v in toc.values() if v}
+    _booktitles={_nosp(env.get('BOOK_NAME','')), _nosp(env.get('TITLE',''))}-{''}
+    def _is_header(t):
+        s=_nosp(t)
+        if s in _booktitles or s in _chap_titles: return True
+        s2=re.sub(r'^\d+\.?','',s)   # '1.제목' / '1제목' 형태
+        return bool(s2) and s2 in _chap_titles
     # 2) 본문 장 시작 인덱스 (숫자 단독 문단 + 이후 곧 성경구절 OR 차례 제목 일치)
     #    주제형 책(성경 도입구절 없는 장)도 제목 일치로 인식.
     def _sq(s): return re.sub(r'\s','',s)
@@ -117,6 +126,7 @@ def main(book_dir):
             if not t: continue
             if re.fullmatch(r'\d{1,3}', t): continue          # 페이지번호
             if t in running: continue                         # 러닝헤더/꼬리말(문서 전반 반복)
+            if _is_header(t): continue                        # 책/장 제목 러닝헤더(번호 포함 형태 포함)
             if title and t==title: continue                   # 러닝헤더(장 제목 반복)
             if t in ('물줄기교회 조춘숙 목사','조춘숙 목사','물줄기교회','물줄기교회를 검색해 주세요!'): continue
             if REF_RE.match(t): out.append(('ref',t)); expect_quote=True; continue
