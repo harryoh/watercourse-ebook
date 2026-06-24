@@ -11,6 +11,8 @@
 - **PDF** — 최후 수단(줄바꿈 공백 유실·노이즈로 검토 부담 큼). 가급적 지양.
 - 공통 원문 덤프: `python3 shared/lib/dump.py <파일.hwp|.docx>` (구조 판단용)
 
+> 📒 **책별 추출 방법은 `docs/편찬노트.md`에 기록**되어 있다. 같은 책 재생성·유사 신간 추가 시 그 기록을 따른다.
+
 ## 역할 분담
 - 스크립트(고정): `shared/lib/hwp5.py`(HWP 원문 추출), `shared/lib/dump.py`(원문 덤프),
   `shared/lib/make_cover.py`(표지), `build.sh`(Calibre로 md→EPUB)
@@ -98,7 +100,9 @@ build.sh는 book.env를 읽어 EPUB 메타데이터·파일명을 만든다. EDI
 
 ## 버전 관리 규칙
 - 원고/디자인 수정 → `VERSION` 올림(예 1.0.0→1.0.1). 큰 개정 → `EDITION` 올림(제1판→제2판) + VERSION 리셋.
-- 수정 시 `git commit`, 배포 시 `git tag <slug>-vX.Y.Z`. 브랜치는 `main`.
+- 수정 시 `git commit`. **판 발행 시 `./release.sh books/<슬러그>`** → `<슬러그>-v<VERSION>` 태그 푸시 → CI가 Release에 EPUB 첨부.
+- 과거 판 복구: `git checkout <슬러그>-v1.0.0 && ./build.sh books/<슬러그>`. 브랜치는 `main`.
+- 재추출(extract_hwp)은 기존 manuscript.md를 덮어쓰지 않음(있으면 manuscript.regen.md로 저장, `--force`로 강제).
 
 ## 품질 원칙 (중요)
 - **빌드는 원고 내용을 수정하지 않는다.** 오타·띄어쓰기·구조 교정은 반드시 검토 단계에서 manuscript.md를 직접 고친다.

@@ -48,18 +48,21 @@ def _parse_toc(paras):
     """차례 영역에서 (장번호→제목) 추출. 점선형 'N. 제목 --- 쪽' / 공백형 'N  제목   쪽' 모두 지원."""
     start = 0
     for i, p in enumerate(paras):
-        if re.sub(r'[\s·]', '', p) == '차례':
+        if re.sub(r'[^가-힣]', '', p) == '차례':   # '차 례', '│차례│' 등 허용
             start = i; break
+    # 차례 끝 = 본문 머리말 제목(쪽번호 없음). 차례 안 '… 9' 항목과 구분.
     end = len(paras)
     for i in range(start + 1, len(paras)):
-        if paras[i].strip() == '이 책을 읽는 분들께':
+        if '이 책을 읽는 분들께' in paras[i] and not re.search(r'\d\s*$', paras[i]):
             end = i; break
     toc = {}
     for p in paras[start:end]:
         s = p.strip()
-        m = re.match(r'^(\d+)\.\s*(.+?)\s*-{2,}\s*\d+\s*$', s)   # 점선형
-        if not m:
-            m = re.match(r'^(\d+)\s+(.+?)\s+\d+\s*$', s)          # 공백형
+        m = (re.match(r'^\[(\d+)\]\s*(.+?)\s*[-_.·…]{2,}\s*\d+\s*$', s) # [N] + 리더
+             or re.match(r'^\[(\d+)\]\s*(.+?)\s+\d+\s*$', s)            # [N] + 공백
+             or re.match(r'^(\d+)\.\s*(.+?)\s*[-_.·…]{2,}\s*\d+\s*$', s)# 점/밑줄/점선 리더
+             or re.match(r'^(\d+)\.\s*(.+?)\s{2,}\d+\s*$', s)          # 점 + 공백 리더
+             or re.match(r'^(\d+)\s+(.+?)\s+\d+\s*$', s))              # 공백형(점 없음)
         if m:
             toc[int(m.group(1))] = norm(m.group(2))
     return toc
@@ -87,8 +90,9 @@ def main(book_dir):
                     starts[k]=i; break
     order=sorted(starts.items(), key=lambda x:x[1])
     # 3) 머리말
-    pidx=[i for i,p in enumerate(paras) if p.strip()=='이 책을 읽는 분들께']
     first_start=order[0][1]
+    pidx=[i for i,p in enumerate(paras)
+          if '이 책을 읽는 분들께' in p and not re.search(r'\d\s*$', p) and i < first_start]
     preface=[]
     if pidx:
         for i in range(pidx[-1]+1, first_start):
@@ -97,12 +101,15 @@ def main(book_dir):
             if re.match(r'^\d{4}\s*\.', t): break   # 발행일 서명부 시작 → 머리말 끝
             preface.append(t)
     # 4) 본문 블록 만들기
-    def blocks_of(rng):
-        # 첫 인용(챕터 도입 성경)=quote_lead(박스), 본문 중간 성경 참조 뒤 인용=quote(배경 없음)
+    def blocks_of(rng, title=''):
+        # 첫 인용(도입 성경)=quote_lead(박스), 본문 중간 인용=quote. 옛 책 러닝헤더/꼬리말/페이지번호 제거.
         out=[]; expect_quote=True; first=True
         for p in rng:
             t=norm(p)
             if not t: continue
+            if re.fullmatch(r'\d{1,3}', t): continue          # 페이지번호
+            if title and t==title: continue                   # 러닝헤더(장 제목 반복)
+            if t in ('물줄기교회 조춘숙 목사','조춘숙 목사','물줄기교회','물줄기교회를 검색해 주세요!'): continue
             if REF_RE.match(t): out.append(('ref',t)); expect_quote=True; continue
             if expect_quote:
                 out.append(('quote_lead' if first else 'quote', t))
@@ -121,12 +128,19 @@ def main(book_dir):
         op=next((i for i,p in enumerate(seg) if opener.match(p.strip())), 1)
         title=toc.get(k, norm(seg[1]) if len(seg)>1 else f'{k}장')
         passage=norm(seg[op]) if op<len(seg) else ''
-        chapters.append((k,title,passage,blocks_of(seg[op+1:])))
-    write_md(book_dir, env, preface, chapters)
-    print(f"manuscript.md 생성 완료 — 장 {len(chapters)}개, 머리말 {len(preface)}문단")
+        chapters.append((k,title,passage,blocks_of(seg[op+1:], title)))
+    # 안전 가드: 기존 manuscript.md(손편집본)를 덮어쓰지 않는다.
+    out = os.path.join(book_dir, 'manuscript.md')
+    if os.path.exists(out) and '--force' not in sys.argv:
+        out = os.path.join(book_dir, 'manuscript.regen.md')
+        print("⚠ 기존 manuscript.md 를 보존합니다. 새 추출은 manuscript.regen.md 에 저장했습니다.")
+        print("  → 두 파일을 비교/병합하세요(diff). 정말 덮어쓰려면 --force 옵션 사용.")
+    write_md(book_dir, env, preface, chapters, out)
+    print(f"생성 완료({os.path.basename(out)}) — 장 {len(chapters)}개, 머리말 {len(preface)}문단")
     print("이미지:", ', '.join(sorted(os.listdir(imgdir))) or '(없음)')
 
-def write_md(book_dir, env, preface, chapters):
+def write_md(book_dir, env, preface, chapters, out=None):
+    out = out or os.path.join(book_dir, 'manuscript.md')
     L=[]; ap=L.append
     def img_ref(name):
         for ext in ('png','jpg','jpeg'):

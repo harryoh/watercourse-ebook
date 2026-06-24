@@ -2,7 +2,6 @@
 body{font-family:"Noto Serif CJK KR","Noto Serif KR",serif;line-height:1.85;color:#1a1a1a;
   word-break:keep-all;-webkit-hyphens:none;hyphens:none;margin:0;padding:0;}
 h1{font-size:1.6em;line-height:1.4;font-weight:700;margin:1.2em 0 .6em;
-  padding-bottom:.3em;border-bottom:2px solid #d8cfa9;
   page-break-before:always;break-before:page;}
 p{margin:0 0 .95em;text-align:justify;text-indent:1em;}
 /* 성경 인용 공통: 본문(명조)과 구분 — 고딕 + 작게 + 들여쓰기 (배경 없음) */
@@ -34,3 +33,6 @@ p.ref{text-indent:0;text-align:left;color:#33506b;font-weight:700;font-size:.9em
 .church-info img{max-width:100%;height:auto;}
 .colophon p.pubinfo{text-indent:0;text-align:center;font-weight:700;margin:.2em 0 1.2em;color:#33506b;}
 .colophon p.ver{text-indent:0;text-align:center;color:#888;font-size:.82em;margin-top:1.2em;}
+.poem{text-indent:0;margin:0 0 1em;line-height:1.9;}
+.photo{text-indent:0;text-align:center;margin:1.2em 0;}
+.photo img{max-width:100%;height:auto;}

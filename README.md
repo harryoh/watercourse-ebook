@@ -2,7 +2,7 @@
 
 설교 강해집 원고(HWP·DOCX 등)를 **표준 도구로 재현 가능하게** EPUB 전자책으로 만드는 저장소입니다.
 
-`books/sample` 은 파이프라인이 실제로 동작하는 **예제(아모스 강해)** 입니다.
+`books/17-amos` 은 파이프라인이 실제로 동작하는 **예제(아모스 강해)** 입니다.
 이것으로 흐름을 익힌 뒤, 실제 원고를 한 권씩 `books/` 아래에 추가하면 됩니다.
 
 ## 변환 파이프라인
@@ -58,31 +58,31 @@ Calibre는 무료 오픈소스(GPLv3)입니다.
 ### EPUB 빌드 (가장 자주 쓰는 명령)
 ```bash
 cd watercourse-ebook
-./build.sh books/sample
-# → books/sample/output/아모스 강해.epub
+./build.sh books/17-amos
+# → books/17-amos/output/아모스 강해.epub
 ```
 
 ### 원고 검토 (출판 전 필수)
 빌드는 원고를 고치지 않습니다. 내용 교정은 이 단계에서 합니다.
 
 ```bash
-python3 shared/lib/review.py books/sample   # 자동 점검(보고 전용)
+python3 shared/lib/review.py books/17-amos   # 자동 점검(보고 전용)
 ```
 그 뒤 `docs/검토체크리스트.md`로 사람 눈 검토 → 통과하면 `book.env`에 `REVIEWED="yes"` 표시 → 빌드.
 
 ### 내용 수정
-`books/sample/manuscript.md` 를 텍스트 편집기로 고친 뒤 다시 `./build.sh books/sample` 실행.
+`books/17-amos/manuscript.md` 를 텍스트 편집기로 고친 뒤 다시 `./build.sh books/17-amos` 실행.
 
 ### 디자인(폰트 크기·인용박스·색 등) 수정
 `shared/style.css` 를 고친 뒤 다시 빌드. 모든 책에 공통 적용됩니다.
 
 ### 표지 수정
-`books/sample/book.env` 의 `COVER_*` 값(문구·색)을 바꾸고
-`python3 shared/lib/make_cover.py books/sample` 실행. 직접 만든 이미지를 `cover.jpg`로 덮어써도 됩니다.
+`books/17-amos/book.env` 의 `COVER_*` 값(문구·색)을 바꾸고
+`python3 shared/lib/make_cover.py books/17-amos` 실행. 직접 만든 이미지를 `cover.jpg`로 덮어써도 됩니다.
 
 ### HWP에서 원고 다시 추출 (원본이 바뀐 경우)
 ```bash
-python3 shared/lib/extract_hwp.py books/sample
+python3 shared/lib/extract_hwp.py books/17-amos
 ```
 ⚠️ `manuscript.md`를 새로 덮어씁니다. 손으로 편집한 내용이 있으면 백업 후 실행하세요.
 
@@ -138,3 +138,23 @@ python3 shared/lib/extract_hwp.py books/sample
 - 빌드 후 **epubcheck**로 EPUB 규격을 자동 검증합니다(오류 시 빌드 실패). 리더기별 렌더링 문제의 상당수는 규격 위반에서 오므로 1차 방어선이 됩니다.
 
 작업 흐름: (로컬/AI) `manuscript.md`·`book.env` 작성 → `git commit && git push` → GitHub Actions가 빌드.
+
+## 판(edition) 관리 — git 태그 중심
+판마다 git 태그로 고정합니다. 과거 판의 소스와 EPUB이 영구 보존되고, 언제든 복구·재빌드할 수 있습니다.
+
+새 판(예: 로마서 제2판) 발행 순서:
+1. `books/16-romans/manuscript.md` 수정(개정 내용 반영)
+2. `books/16-romans/book.env` 에서 `EDITION="제2판"`, `VERSION="2.0.0"`, `RELEASE_DATE` 갱신
+3. 커밋: `git add -A && git commit -m "edit: Romans 2nd edition"`
+4. 판 릴리스: `./release.sh books/16-romans`
+   - `romans-v2.0.0` 태그를 만들어 푸시 → GitHub Actions가 그 판을 빌드해 **Release에 EPUB 첨부**
+
+과거 판 복구/재빌드:
+```bash
+git checkout romans-v1.0.0    # 1판 시점으로
+./build.sh books/16-romans     # 1판 EPUB 재생성
+git checkout main              # 최신으로 복귀
+```
+- 작업트리는 항상 **최신 판 하나**만 깔끔하게 유지됩니다.
+- 각 판의 EPUB은 그 판의 **GitHub Release**에서도 내려받을 수 있습니다.
+- `output/` 의 파일명에도 판·버전이 찍힙니다(`… - 제2판 v2.0.0 (2026-03).epub`).

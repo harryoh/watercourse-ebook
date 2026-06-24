@@ -30,8 +30,17 @@ def main(bd):
     def center(t,y,f,fill):
         bb=d.textbbox((0,0),t,font=f); d.text(((W-(bb[2]-bb[0]))/2-bb[0],y),t,font=f,fill=fill)
     d.rectangle([W/2-1,160,W/2+1,360],fill=accent)
-    center(env.get('BOOK_NAME',''),560,F(SERB,300),(245,245,240))
-    center(env.get('TITLE',''),940,F(SER,96),accent)
+    def fit(text,maxsize,maxw):
+        s=maxsize
+        while s>60:
+            f=F(SERB,s); bb=d.textbbox((0,0),text,font=f)
+            if bb[2]-bb[0]<=maxw: return f
+            s-=12
+        return F(SERB,60)
+    bk=env.get('BOOK_NAME','')
+    center(bk,560,fit(bk,300,W-300),(245,245,240))
+    sub=env.get('TITLE','')
+    if sub and sub!=bk: center(sub,940,F(SER,96),accent)
     d.rectangle([W/2-140,1120,W/2+140,1123],fill=(120,140,160))
     verse=(env.get('COVER_VERSE') or '').split('|')
     y=1260
