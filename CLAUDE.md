@@ -4,16 +4,23 @@
 원고마다 내부 구조가 달라 "구조 인식"은 프로그램으로 일반화하지 않는다.
 → **원문 추출·표지·빌드는 결정론적 스크립트**, **구조화(manuscript.md·book.env 작성)는 Claude가 판단**으로 한다.
 
+## 지원 원본 형식
+- **HWP(.hwp 5.0)** — `shared/lib/hwp5.py` (1순위, 가장 깨끗)
+- **DOCX(.docx)** — `shared/lib/docx.py` (2순위, 공백·문단 보존 양호)
+- **DOC(구버전)** — 먼저 변환: `soffice --headless --convert-to docx 파일.doc` → 이후 .docx로 처리
+- **PDF** — 최후 수단(줄바꿈 공백 유실·노이즈로 검토 부담 큼). 가급적 지양.
+- 공통 원문 덤프: `python3 shared/lib/dump.py <파일.hwp|.docx>` (구조 판단용)
+
 ## 역할 분담
-- 스크립트(고정): `shared/lib/hwp5.py`(HWP 원문 추출), `shared/lib/dump_hwp.py`(원문 덤프),
+- 스크립트(고정): `shared/lib/hwp5.py`(HWP 원문 추출), `shared/lib/dump.py`(원문 덤프),
   `shared/lib/make_cover.py`(표지), `build.sh`(Calibre로 md→EPUB)
 - Claude(판단): 덤프한 원문을 읽고 `books/<slug>/manuscript.md` 구조화 + `books/<slug>/book.env` 작성
 
 ## 새 책 만드는 절차 (Claude가 수행)
 1. 폴더 생성: `./new-book.sh <slug> "제목"`  (예: `16-romans`). `original/`에 HWP를 둔다.
-2. **원문 읽기**: `python3 shared/lib/dump_hwp.py books/<slug>/original/<파일>.hwp`
+2. **원문 읽기**: `python3 shared/lib/dump.py books/<slug>/original/<파일>.hwp`
    - 전체 문단을 `[번호] 본문` 으로 출력. 이걸 읽고 구조를 파악한다(표제지/차례/머리말/장/판권/안내).
-3. **이미지 추출**: `python3 shared/lib/dump_hwp.py books/<slug>/original/<파일>.hwp --images books/<slug>/images/_extracted`
+3. **이미지 추출**: `python3 shared/lib/dump.py books/<slug>/original/<파일>.hwp --images books/<slug>/images/_extracted`
    - 필요한 것만 `images/`로 올려 의미있는 이름을 준다: 로고→`logo.png`, 예배안내/지도→`church-info.png`.
 4. **manuscript.md 작성** (아래 "마크업 규칙"대로). 본문은 **원문 그대로**, 빠뜨리거나 바꾸지 않는다.
 5. **book.env 작성/수정** (아래 "book.env 필드"대로).
